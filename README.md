@@ -1,3 +1,146 @@
+# How to configure the project
+
+Create a .env file
+
+```jsx
+REACT_APP_GITHUB_TOKEN = "yourtoken";
+```
+
+# Cross-sourcerer
+
+Well, as a developer we all use Github ; But is there a way to have visual informations of public users informations and meta-data ? Yes ! Thanks to Github API we can have any data we want, and the goal of the project is to make a copycat of.... Sourcerer !
+
+# First Part
+
+```jsx
+{
+  user(login: "Sanvoisins") {
+    name
+    login
+    company
+    location
+    avatarUrl
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+    repositories(first: 100, orderBy: {field: PUSHED_AT, direction: DESC}) {
+      nodes {
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              additions
+              deletions
+              history {
+                totalCount
+              }
+            }
+          }
+        }
+      }
+      totalCount
+    }
+  }
+}
+```
+
+# Second Part
+
+```jsx
+{
+  user(login: "Sanvoisins") {
+    repositories(first: 100) {
+      totalCount
+      nodes {
+        updatedAt
+        createdAt
+        languages(first: 100) {
+          totalCount
+          nodes {
+            name
+            color
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+# Third Part
+
+```jsx
+{
+  user(login: "Sanvoisins") {
+    repositories(first: 100) {
+      totalCount
+      nodes {
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              additions
+              deletions
+              history {
+                totalCount
+              }
+            }
+          }
+        }
+        languages(first: 100) {
+          totalCount
+          nodes {
+            name
+            color
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+# Fourth Part
+
+```jsx
+{
+  user(login: "sanvoisins") {
+    repositories(first: 100) {
+      nodes {
+        name
+        description
+        nameWithOwner
+        createdAt
+        collaborators {
+          nodes {
+            avatarUrl
+            name
+            login
+          }
+        }
+        defaultBranchRef {
+          target {
+            ... on Commit {
+              history {
+                totalCount
+              }
+            }
+          }
+        }
+        languages(first: 100) {
+          totalCount
+          nodes {
+            name
+            color
+          }
+        }
+      }
+    }
+  }
+}
+```
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
